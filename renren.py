@@ -6,57 +6,70 @@ from urllib.error import HTTPError
 
 class API(object):
     """API class.""" # http://open.renren.com/wiki/English_version_for_API2
-    URL = 'https://api.renren.com/v2/'
 
     def __init__(self, access_token_pool):
         """Import access_token pool"""
         self.tokens = access_token_pool
 
-    def __change_Token(self):
-        """Change the token if it overs the limit"""
-        self.tokens.append(self.tokens[0])
-        self.tokens.pop(0)
-        print("New-TOKEN:%s" % self.tokens[0])
+    def __getattr__(self, attr):
+        return Wrapper(self, attr)
 
-    def __delete_Token(self):
-        """Delete the token if it is invalid"""
-        print("Invalid-TOKEN:%s" % self.tokens[0])
-        self.tokens.pop(0)
+class Wrapper():
+    URL = 'https://api.renren.com/v2/'
 
-    def __error_Handling(self, e):
-        """Extract error message"""
-        message = e.read().decode('utf-8').split(':')[3].strip('\"}')
-        if message == "invalid_authorization.INVALID-TOKEN":
-            self.__delete_Token()
-        elif message == "forbidden.APP_OVER_INVOCATION_LIMIT":
-            self.__change_Token()
-        elif message == "invalid_request.USER_NOT_EXIST" or message == "forbidden.NO_RIGHT":
-            return "Break"
-        else:
-            print(message)
-            return "Break"
+    def __init__(self, api, name):
+        self.api = api
+        self.name = name
 
-    def __http_Request(self, url0):
-        while True:
-            f = None
-            url = url0 + "&access_token=%s" % self.tokens[0]
-            try:
-                f = request.urlopen(url)
-                return f.read().decode('utf-8')
-            except HTTPError as e:
-                if self.__error_Handling(e) == "Break":
-                    return None
-            finally:
-                if f:
-                    f.close()
-                # print("token: " + self.tokens[0])
+    def __getattr__(self, attr):
+        return Wrapper(self.api, "%s/%s" % (self.name, attr))
 
-    def friend_list(self, userId, pageSize=10000):
-        """Obtain a user's friend ID list"""
-        url = self.URL + "friend/list?userId=%s&pageSize=%s" % (userId, pageSize)
-        return self.__http_Request(url)
+    def __call__(self, **kw):
+        url = self.URL + self.name + encode_Params(**kw)
+        return http_Request(self.api, url)
 
-    def profile(self, userId):
-        """Get the user's home information, including a variety of statistical data."""
-        url = self.URL + "profile/get?userId=%s" % (userId)
-        return self.__http_Request(url)
+def encode_Params(**kw):
+    """Return a URL-encoded string for a dictionary of paramteres."""
+    s = '?'
+    for k, v in kw.items():
+        s = s + str(k) + '=' + str(v) + '&'
+    return s.strip('&')
+
+def http_Request(api, url0):
+    while True:
+        f = None
+        url = url0 + "&access_token=%s" % api.tokens[0]
+        try:
+            f = request.urlopen(url)
+            return f.read().decode('utf-8')
+        except HTTPError as e:
+            if error_Handling(api, e) == "Break":
+                return None
+        finally:
+            if f:
+                f.close()
+            # print("token: " + self.tokens[0])
+
+def error_Handling(api, e):
+    """Extract error message"""
+    message = e.read().decode('utf-8').split(':')[3].strip('\"}')
+    if message == "invalid_authorization.INVALID-TOKEN":
+        delete_Token(api)
+    elif message == "forbidden.APP_OVER_INVOCATION_LIMIT":
+        change_Token(api)
+    elif message == "invalid_request.USER_NOT_EXIST" or message == "forbidden.NO_RIGHT":
+        return "Break"
+    else:
+        print(message)
+        return "Break"
+
+def change_Token(api):
+    """Change the token if it overs the limit"""
+    api.tokens.append(api.tokens[0])
+    api.tokens.pop(0)
+    print("New-TOKEN:%s" % api.tokens[0])
+
+def delete_Token(api):
+    """Delete the token if it is invalid"""
+    print("Invalid-TOKEN:%s" % api.tokens[0])
+    api.tokens.pop(0)
