@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
-"""Running Environment: Python 3.5.1"""
+
+__version__ = '1.0'
+__author__ = 'Luping Yu (lazydingding@gmail.com)'
+
+'''Python SDK for renren API, designed for social network research'''
+'''Running Environment: Python ~3.5'''
 
 from urllib import request
 from urllib.error import HTTPError
 
-class API(object):
-    """API class.""" # http://open.renren.com/wiki/English_version_for_API2
+class API():
+    '''For detailed API documents, please visit
+    http://open.renren.com/wiki/English_version_for_API2'''
 
     def __init__(self, access_token_pool):
-        """Import access_token pool"""
+        '''Import access_token pool'''
         self.tokens = access_token_pool
 
     def __getattr__(self, attr):
         return Wrapper(self, attr)
 
 class Wrapper():
-    URL = 'https://api.renren.com/v2/'
+    '''Dynamic invocation for each interface'''
+    URL = "https://api.renren.com/v2/"
 
     def __init__(self, api, name):
         self.api = api
@@ -29,7 +36,7 @@ class Wrapper():
         return http_Request(self.api, url)
 
 def encode_Params(**kw):
-    """Return a URL-encoded string for a dictionary of paramteres."""
+    '''Return a URL-encoded string for a dictionary of paramteres.'''
     s = '?'
     for k, v in kw.items():
         s = s + str(k) + '=' + str(v) + '&'
@@ -43,7 +50,7 @@ def http_Request(api, url0):
             f = request.urlopen(url)
             return f.read().decode('utf-8')
         except HTTPError as e:
-            if error_Handling(api, e) == "Break":
+            if not error_Handling(api, e):
                 return None
         finally:
             if f:
@@ -51,25 +58,29 @@ def http_Request(api, url0):
             # print("token: " + self.tokens[0])
 
 def error_Handling(api, e):
-    """Extract error message"""
-    message = e.read().decode('utf-8').split(':')[3].strip('\"}')
-    if message == "invalid_authorization.INVALID-TOKEN":
+    '''Extract error message'''
+    message = e.read().decode('utf-8')
+    if "invalid_authorization.INVALID-TOKEN" in message:
         delete_Token(api)
-    elif message == "forbidden.APP_OVER_INVOCATION_LIMIT":
+        return True
+    elif "forbidden.APP_OVER_INVOCATION_LIMIT" in message:
         change_Token(api)
-    elif message == "invalid_request.USER_NOT_EXIST" or message == "forbidden.NO_RIGHT":
-        return "Break"
+        return True
+    elif "The requested resource () is not available" in message:
+        print("APIError: Invalid interface name!")
+    elif ("invalid_request.USER_NOT_EXIST" in message or
+    "forbidden.NO_RIGHT" in message):
+        pass
     else:
         print(message)
-        return "Break"
 
 def change_Token(api):
-    """Change the token if it overs the limit"""
+    '''Change the token if it overs the limit'''
     api.tokens.append(api.tokens[0])
     api.tokens.pop(0)
     print("New-TOKEN:%s" % api.tokens[0])
 
 def delete_Token(api):
-    """Delete the token if it is invalid"""
+    '''Delete the token if it is invalid'''
     print("Invalid-TOKEN:%s" % api.tokens[0])
     api.tokens.pop(0)
