@@ -13,9 +13,9 @@ your suggestions at [here](https://github.com/lazydingding/renren_sdk).
 
 You can install the SDK via pip.
 
-'''
+```
 pip install renrensdk
-'''
+```
 
 ## Get Access Token
 
