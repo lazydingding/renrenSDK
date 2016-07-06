@@ -13,9 +13,9 @@ your suggestions at [here](https://github.com/lazydingding/renren_sdk).
 
 You can install the SDK via pip.
 
-```
+'''
 pip install renrensdk
-```
+'''
 
 ## Get Access Token
 
@@ -52,5 +52,5 @@ You can call an API using the APIClient's.  Remove "/v2/" and replace "/" with "
 
 ```python
 print (api.profile.get(userId="383202003"))
-print (api.friend.list(userId='383202003', pageSize=10000))
+print (api.friend.list(userId="383202003", pageSize=10000))
 ```
