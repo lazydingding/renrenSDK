@@ -32,17 +32,6 @@ Visit [Renren Dev Tools](http://dev.renren.com/tools) to obtain access token
 
 English version for OAuth2.0 [OAuth2.0](http://open.renren.com/wiki/English_version_for_OAuth2.0).
 
-
-OAuth 2 is a protocol focuses on client developer simplicity while providing
-specific authorization flows for web applications.
-
-There are many social networks provides OAuth 2 authentication and APIs, and
-snspy is a simple API wrapper for any social network such as Twitter, Facebook,
-LinkedIn, Sina Weibo, etc.
-
-snspy provides a unique API interface for developers and difference of each
-social network APIs are handled by its `mixin`.
-
 ## Initialize API instance
 
 After setting up your Access Token, you can create the API instance now:
