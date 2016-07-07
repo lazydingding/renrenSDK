@@ -8,7 +8,7 @@ for [人人网 renren.com](http://www.renren.com)
 
 This SDK is designed for researchers to obtain social network data from renren.com (a typical undirected network). In this case the only Reading Interfaces will be taken into consideration.
 
-Developed and maintained by Luping Yu. Please feel free to report bugs and
+Developed and maintained by [Luping Yu](https://github.com/lazydingding). Please feel free to report bugs and
 your suggestions at [here](https://github.com/lazydingding/renren_sdk).
 
 ## Installation
