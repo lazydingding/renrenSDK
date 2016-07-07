@@ -6,7 +6,7 @@ This SDK is a stand-alone Python script which provides
 
 for [人人网 renren.com](http://www.renren.com)
 
-This SDK is designed for researchers to obtain social network data from renren.com (a typical undirected network). In this case only the Reading Interfaces will be taken into consideration.
+This SDK is designed for researchers to obtain social network data from renren.com (a typical undirected network). In this case, only Reading Interfaces will be taken into consideration by this SDK.
 
 Developed and maintained by [Luping Yu](https://github.com/lazydingding). Please feel free to report bugs and
 your suggestions at [here](https://github.com/lazydingding/renren_sdk).
