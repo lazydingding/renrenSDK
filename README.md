@@ -43,7 +43,7 @@ After getting your access token(s), you can create the API instance now:
 ```python
 from renren import API
 
-access_token_pool = [token1, token2, ...]
+access_token_pool = [token1, token2, ..., tokenN]
 
 api = API(access_token_pool)
 ```
