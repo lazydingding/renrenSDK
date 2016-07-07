@@ -32,9 +32,9 @@ Step 2- Get Access Token: Visit [Renren Dev Tools](http://dev.renren.com/tools) 
 The document about OAuth2.0 authorization process could be found at [OAuth2.0](http://open.renren.com/wiki/English_version_for_OAuth2.0).
 
 ### API Rate Limits
-The rate limit for each application is 150 requests / 1-hour window. To upgrade this rate-limit, developers need to register plenty of applications to obtain enough access tokens. We suggest developers import an "access token pool" when initializing the API instance. This SDK will change token automatically when it overs the limit.
+The rate limit for each application is **150 requests / 1-hour window**. To upgrade this rate-limit, developers need to register plenty of applications to obtain enough access tokens. We suggest developers import an "access token pool" when initializing the API instance. This SDK will change token automatically when it overs the limit.
 
-We also found that the average time consume for each API calling is about 1s. In this case, 25 tokens (3750 requests / 1-hour window) are enough to make sure the API requests will continuous running.
+We also found that the average time consume for each API calling is about 1s. In this case, **25 tokens** (3750 requests / 1-hour window) are enough to make sure the API requests will continuous running.
 
 ## Initialize API instance
 
