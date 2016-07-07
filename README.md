@@ -43,7 +43,7 @@ After getting your access token(s), you can create the API instance now:
 ```python
 from renren import API
 
-access_token_pool = [token1, token2, ..., tokenN]
+access_token_pool = ["token1", "token2", ..., "tokenN"]
 
 api = API(access_token_pool)
 ```
@@ -56,6 +56,5 @@ You can call an API using the APIClient's.  Remove "/v2/" and replace "/" with "
 
 ```python
 print (api.profile.get(userId="383202003"))
-print (api.user.get(userId="383202003"))
 print (api.friend.list(userId="383202003", pageSize=10000))
 ```
