@@ -36,8 +36,6 @@ The rate limit for each application is 150 requests / 1-hour window. To upgrade 
 
 We also found that the average time consume for each API calling is about 1s. In this case, 25 tokens (3750 requests / 1-hour window) are enough to make sure the API requests will continuous running.
 
-After getting Access Token, you can call the REST API. For more information about REST API, please visit [API interface using instruction](http://open.renren.com/wiki/English_version_for_API2).
-
 ## Initialize API instance
 
 After getting your access token(s), you can create the API instance now:
