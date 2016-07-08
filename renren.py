@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-__version__ = '1.0'
+__version__ = '1.5'
 __author__ = 'Luping Yu (lazydingding@gmail.com)'
 
 '''Python SDK for renren API, designed for social network research'''
